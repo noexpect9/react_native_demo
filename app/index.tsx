@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#634EFF",
     marginBottom: 4,
+    fontFamily: "SpaceMono-Regular",
   },
   subtitle: {
     fontSize: 24,

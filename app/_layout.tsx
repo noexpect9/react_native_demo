@@ -22,6 +22,12 @@ export default function RootLayout() {
           title: "Forgot",
         }}
       />
+      <Stack.Screen
+        name="emailSignup"
+        options={{
+          title: "EmailSignup",
+        }}
+      />
     </Stack>
   );
 }

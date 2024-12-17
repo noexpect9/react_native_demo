@@ -1,64 +1,98 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Image } from "react-native";
-import { Formik } from "formik";
-import { TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import * as Google from "expo-auth-session/providers/google";
+import { useRouter } from "expo-router";
 
-export default function Login() {
-  const navigation: any = useNavigation();
+export default function WelcomeScreen() {
+  const router = useRouter();
+  const [_, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: "YOUR_IOS_CLIENT_ID",
+    androidClientId: "YOUR_ANDROID_CLIENT_ID",
+  });
+
+  const handleGoogleSignIn = async () => {
+    await promptAsync();
+  };
+  const handleTiktokSignIn = async () => {
+  };
+
   return (
     <View style={styles.container}>
-      <Image
-        source={require("@/assets/images/react-logo.png")}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>Login</Text>
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => {}}
-      >
-        {() => (
-          <>
-            <View style={styles.inputContainer}>
-              <Ionicons name="mail-outline" size={25} style={styles.icon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                keyboardType="email-address"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Ionicons
-                name="lock-closed-outline"
-                size={25}
-                style={styles.icon}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-              />
-            </View>
-            <TouchableOpacity onPress={() => {
-              navigation.navigate("forgot");
-            }}>
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => {
-              navigation.navigate("(tabs)");
-            }}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.signUp}>
-                Don't have an account?{" "}
-                <Text style={styles.signUpLink}>Sign Up</Text>
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
+      <StatusBar style="dark" />
+
+      {/* Header Section */}
+      <View style={styles.header}>
+        <Text style={styles.welcomeText}>Welcome,</Text>
+        <Text style={styles.subtitle}>See What's Next.</Text>
+      </View>
+
+      {/* Illustration */}
+      <View style={styles.illustrationContainer}>
+        <Image
+          source={require("../assets/images/netflix-illustration.png")}
+          style={styles.illustration}
+          resizeMode="contain"
+        />
+      </View>
+
+      {/* Tagline */}
+      <Text style={styles.tagline}>
+        Explore the world of Netflix,{"\n"}dive in.
+      </Text>
+
+      {/* Buttons */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.emailButton}
+          onPress={() => {
+            /* Handle email sign up */
+            router.push("/emailSignup");
+          }}
+        >
+          <Text style={styles.emailButtonText}>Sign up with email</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={handleGoogleSignIn}
+        >
+          <Image
+            source={require("../assets/images/google.png")}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.googleButtonText}>Sign up with Google</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tiktokButton}
+          onPress={handleTiktokSignIn}
+        >
+          <Image
+            source={require("../assets/images/tiktok.png")}
+            style={styles.tiktokIcon}
+          />
+          <Text style={styles.tiktokButtonText}>Sign up with Tiktok</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Login Link */}
+      <View style={styles.loginContainer}>
+        <Text style={styles.loginText}>Already have an account? </Text>
+        <TouchableOpacity
+          onPress={() => {
+            /* Handle login */
+          }}
+        >
+          <Text style={styles.loginLink}>Log in</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -66,68 +100,105 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
+    padding: 30,
   },
-  logo: {
-    height: 200,
-    width: 200,
-    resizeMode: "contain",
-    marginBottom: 20,
+  header: {
+    marginTop: 80,
   },
-  title: {
+  welcomeText: {
     fontSize: 32,
-    marginBottom: 40,
-    fontWeight: "bold",
-    color: "black",
+    fontWeight: "600",
+    color: "#634EFF",
+    marginBottom: 4,
   },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: 50,
-    backgroundColor: "#f1f1f1",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    marginRight: 20,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: "100%",
-  },
-  forgotPassword: {
-    alignSelf: "flex-end",
-    marginBottom: 20,
+  subtitle: {
+    fontSize: 24,
     color: "#000",
+    marginBottom: 20,
   },
-  button: {
+  illustrationContainer: {
+    alignItems: "center",
+    marginVertical: 40,
+  },
+  illustration: {
     width: "100%",
+    height: 200,
+  },
+  tagline: {
+    fontSize: 18,
+    color: "#666",
+    textAlign: "center",
+    lineHeight: 24,
+    marginBottom: 40,
+  },
+  buttonContainer: {
+    gap: 16,
+  },
+  emailButton: {
+    backgroundColor: "#634EFF",
+    borderRadius: 25,
     height: 50,
-    backgroundColor: "#1E90FF",
-    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
   },
-  buttonText: {
+  emailButtonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 16,
+    fontWeight: "600",
   },
-  signUp: {
+  googleButton: {
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    height: 50,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+  googleButtonText: {
     color: "#000",
+    fontSize: 16,
+    fontWeight: "500",
   },
-  signUpLink: {
-    color: "#1E90FF",
+  tiktokButton: {
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    height: 50,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
   },
-  errorText: {
-    color: "red",
-    alignSelf: "flex-start",
-    marginBottom: 10,
+  tiktokIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+  tiktokButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  loginContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  loginText: {
+    color: "#666",
+    fontSize: 14,
+  },
+  loginLink: {
+    color: "#634EFF",
+    fontSize: 14,
+    fontWeight: "500",
   },
 });

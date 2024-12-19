@@ -1,6 +1,23 @@
 import { Stack } from "expo-router";
+import { RootSiblingParent } from "react-native-root-siblings";
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export default function RootLayout() {
+export default function App() {
+  return (
+    <RootSiblingParent>
+      <SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <RootNavigation />
+          <StatusBar style="dark" />
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    </RootSiblingParent>
+  );
+}
+
+const RootNavigation = () => {
   return (
     <Stack>
       <Stack.Screen
@@ -30,4 +47,4 @@ export default function RootLayout() {
       />
     </Stack>
   );
-}
+};

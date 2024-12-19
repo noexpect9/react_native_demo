@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as Google from "expo-auth-session/providers/google";
 import { useRouter } from "expo-router";
@@ -20,13 +14,11 @@ export default function WelcomeScreen() {
   const handleGoogleSignIn = async () => {
     await promptAsync();
   };
-  const handleTiktokSignIn = async () => {
-  };
+  const handleTiktokSignIn = async () => {};
 
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
-
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.welcomeText}>Welcome,</Text>
@@ -88,6 +80,7 @@ export default function WelcomeScreen() {
         <TouchableOpacity
           onPress={() => {
             /* Handle login */
+            router.push("/home");
           }}
         >
           <Text style={styles.loginLink}>Log in</Text>

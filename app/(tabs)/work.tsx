@@ -6,8 +6,11 @@ import {
   Alert,
   TouchableHighlight,
   StyleSheet,
+  ToastAndroid,
+  Button,
 } from "react-native";
 import { useRouter } from "expo-router";
+import Toast from "react-native-root-toast";
 
 const styles = StyleSheet.create({
   container: {
@@ -24,24 +27,15 @@ const styles = StyleSheet.create({
 
 export default function Work() {
   const router = useRouter();
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    getMoviesFromApiAsync();
-  }, []);
   const onPressButton = () => {
     router.push("/");
   };
+  const onPressToast = () => {
+    Toast.show("Request failed to send.", {
+      duration: Toast.durations.LONG,
+    });
+  };
 
-  function getMoviesFromApiAsync() {
-    return fetch("https://facebook.github.io/react-native/movies.json")
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setMovies(responseJson.movies);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
   return (
     <SafeAreaView style={styles.container}>
       <TouchableHighlight onPress={onPressButton} underlayColor="white">
@@ -49,6 +43,7 @@ export default function Work() {
           <Text>out login</Text>
         </View>
       </TouchableHighlight>
+      <Button onPress={onPressToast} title="toast" />
     </SafeAreaView>
   );
 }

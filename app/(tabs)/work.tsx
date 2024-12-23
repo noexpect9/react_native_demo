@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import Toast from "react-native-root-toast";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { IconSymbol } from "@/components/ui/IconSymbol";
 
 const styles = StyleSheet.create({
   container: {
@@ -37,13 +39,15 @@ export default function Work() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+    >
       <TouchableHighlight onPress={onPressButton} underlayColor="white">
         <View style={styles.button}>
           <Text>out login</Text>
         </View>
       </TouchableHighlight>
       <Button onPress={onPressToast} title="toast" />
-    </SafeAreaView>
+    </ParallaxScrollView>
   );
 }
